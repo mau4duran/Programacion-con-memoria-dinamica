@@ -4,7 +4,7 @@
 #include <string.h>
 
 int main(void) {
-    char* texto;
+    char texto[30];
     int lon;
 
     printf("Escriba Cadena\n");
