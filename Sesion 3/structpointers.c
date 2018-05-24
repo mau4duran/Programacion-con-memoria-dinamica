@@ -5,15 +5,41 @@
 
 typedef struct{
     unsigned int expediente;
-    char* nombre;
+    char nombre[50];
     unsigned int carrera;
     unsigned short edad;
 }Alumno;
 
+void limpiar(Alumno * puntero, int x) {
+        puntero += x;
+        strcpy(puntero -> nombre, " ");
+        puntero -> expediente = 0;
+        puntero -> carrera = 0;
+        puntero -> edad = 0;
+
+}
+
+void eliminar(Alumno * puntero) {
+        int dato;
+        printf("Escriba el expediente del alumno a eliminar: ");
+        scanf("%d",&dato);
+
+        for (int i = 0; i < 20; i++) {
+            if (puntero -> expediente == dato) {
+                strcpy(puntero -> nombre, " ");
+                puntero -> expediente = 0;
+                puntero -> carrera = 0;
+                puntero -> edad = 0;
+            }
+            puntero++;
+        }
+
+}
+
 void registrar(Alumno * puntero){
     static int x = 0;
     unsigned int expp;
-    char* name;
+    char name[50];
     unsigned int carr;
     unsigned short age;
 
@@ -21,65 +47,145 @@ void registrar(Alumno * puntero){
 
     printf("\nEscriba nombre: ");
     gets(name);
-    //8puntero -> nombre = name;
+    strcpy(puntero -> nombre, name);
 
     printf("Escriba expediente: ");
     scanf("%d", &expp);
     puntero -> expediente = expp;
 
-    printf("\nEscriba Carrera (numero): ");
+    printf("Escriba Carrera (numero): ");
     scanf("%d", &carr);
     puntero -> carrera = carr;
 
-    printf("\nEscriba Edad: ");
+    printf("Escriba Edad: ");
     scanf("%hd", &age);
     puntero -> edad = age;
 
     x++;
+    getchar();
 
 }
 
-void imprimirDatos(){
-    //for (size_t i = 0; i < count; i++) {
-        /* code */
-    //}
-
+void imprimirDatos(Alumno * puntero){
+    printf("\n\n");
+    for (int k = 0; k < 20; k++) {
+        if (strcmp(puntero -> nombre, " ")) {
+            printf("Nombre: %s\n", puntero -> nombre);
+            printf("Expediente: %d\n", puntero -> expediente);
+            printf("Carrera: %d\n", puntero -> carrera);
+            printf("Edad: %d\n", puntero -> edad);
+            printf("\n\n");
+        }
+        puntero ++;
+    }
 }
 
+void buscarExpediente(Alumno * puntero){
+    int dato;
+    printf("Expediente: ");
+    scanf("%d",&dato);
 
-void eliminar(){
+    for (int i = 0; i < 20; i++) {
+        if (puntero -> expediente == dato) {
+            printf("Nombre: %s\n", puntero -> nombre);
+            printf("Carrera: %d\n", puntero -> carrera);
+            printf("Edad: %d\n", puntero -> edad);
+        }
+        puntero++;
+    }
 
+    printf("\n\n\n");
 }
 
-void buscarExpediente(){
+void buscarEdad(Alumno * puntero){
+    int dato;
+    printf("Edad: ");
+    scanf("%d",&dato);
+    printf("\n");
 
+    for (int i = 0; i < 20; i++) {
+        if (puntero -> edad == dato) {
+            printf("Nombre: %s\n", puntero -> nombre);
+            printf("Expediente: %d\n", puntero -> expediente);
+            printf("Carrera: %d\n", puntero -> carrera);
+            printf("Edad: %d\n", puntero -> edad);
+            printf("\n\n");
+        }
+        puntero++;
+    }
+
+    printf("\n\n\n");
 }
 
-void buscarEdad(){
-
-
+void buscar(Alumno * puntero) {
+    int opt;
+    printf("Como quieres buscar al alumno?\n1)Por Expediente\n2)Por Edad\n");
+    scanf("%d",&opt);
+    printf("\n\n");
+    switch (opt) {
+        case 1: buscarExpediente(puntero); break;
+        case 2: buscarEdad(puntero); break;
+        default: printf("\nError. Intente de nuevo");
+    }
 }
+
 
 
 int main(void) {
-    Alumno static alumnos[20];
 
+    Alumno static alumnos[20];
+    char nombre[50];
+    int opcion;
+    int condicion;
     static Alumno * palumnos = alumnos;
-    //while (1) {
+
+    for (int i = 0; i < 20; i++) {
+            limpiar(palumnos, i);
+    }
+
+
+    while (1) {
+
         printf("\t\tMenu\n");
         printf("1) Registrar nuevo alumno\n");
         printf("2) Imprimir datos\n");
         printf("3) Eliminar alumno\n");
         printf("4) Buscar alumno\n\t- Por expediente\n\t- Por edad\n");
         printf("5) Salir\n");
-    //}
 
 
-    registrar(palumnos);
-    registrar(palumnos);
-    registrar(palumnos);
+    printf("Escriba opcion (numero):\n ");
+    scanf("%d", &opcion);
 
-    printf("%d\n%d\n%d", alumnos[0].expediente,alumnos[1].expediente, alumnos[2].expediente);
+    if(opcion == 5 ){
+        break;
+    }
+
+    switch (opcion) {
+        case 1: //Registrar
+        getchar();
+        registrar(palumnos);
+        break;
+
+        case 2://imprimir
+        imprimirDatos(palumnos);
+        break;
+
+        case 3:
+        eliminar(palumnos);
+        break;
+
+        case 4:
+        buscar(palumnos);
+        break;
+
+        default: printf("Error, inserte una opcion válida\n" );
+
+        }
+
+    }
+
+
 
 
 	return EXIT_SUCCESS;
